@@ -147,6 +147,7 @@ function getMaximumValue(player, playerTotal) {
 function resetGame() {
   let playerCardContainer = document.getElementsByClassName("player-card");
   let dealerCardContainer = document.getElementsByClassName("dealer-card");
+
   for (let i = 0; i < playerCardContainer.length; ++i) {
     playerCardContainer[i].childNodes[1].textContent = '';
     playerCardContainer[i].childNodes[3].textContent = '';
@@ -157,18 +158,16 @@ function resetGame() {
     dealerCardContainer[i].childNodes[3].textContent = '';
     dealerCardContainer[i].childNodes[5].textContent = '';
   }
-  let tempPlayerData = playerData;
-  let tempDealerData = dealerData;
 
-  tempPlayerData['cardValues'] = [];
-  tempPlayerData['numberOfCards'] = 0;
-  tempPlayerData['over21'] = false;
-  tempPlayerData['totalScore'] = 0;
+  playerData['cardValues'] = [];
+  playerData['numberOfCards'] = 0;
+  playerData['over21'] = false;
+  playerData['totalScore'] = 0;
 
-  tempDealerData['cardValues'] = [];
-  tempDealerData['numberOfCards'] = 0;
-  tempDealerData['over21'] = false;
-  tempDealerData['totalScore'] = 0;
+  dealerData['cardValues'] = [];
+  dealerData['numberOfCards'] = 0;
+  dealerData['over21'] = false;
+  dealerData['totalScore'] = 0;
 
   let playerTotal = document.querySelector("#player-total");
   let dealerTotal = document.querySelector("#dealer-total");
