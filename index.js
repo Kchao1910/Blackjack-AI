@@ -221,6 +221,8 @@ function stopGame() {
   let resetButton = document.querySelector("#reset-button");
   playButton.disabled = true;
   resetButton.disabled = false;
+
+  textOutput.scrollTop = textOutput.scrollHeight;
 }
 
 function getCard(shuffledDeck) {
@@ -430,25 +432,25 @@ function softTable(shuffledDeck) {
   if ((playerData.totalScore >= 12 && playerData.totalScore <= 17) ||
       (playerData.totalScore === 18 && (dealerData.faceCard >= 3 && dealerData.faceCard <= 6)))
   {
-    textOutput.innerHTML = textOutput.innerHTML + " Player Score: " + playerData.totalScore + "\nHit...";
+    textOutput.innerHTML = textOutput.innerHTML + " Player Score: " + playerData.totalScore + "\nHit...\n";
     hit(playerData, playerTotal, playerCards, shuffledDeck);
   }
   // 2-away Charlie
   else if ((playerData.totalScore === 18 && playerData.numberOfCards === 3)) {
-    textOutput.innerHTML = textOutput.innerHTML + " Player Score: " + playerData.totalScore + "\nHit...";
+    textOutput.innerHTML = textOutput.innerHTML + " Player Score: " + playerData.totalScore + "\nHit...\n";
     hit(playerData, playerTotal, playerCards, shuffledDeck);
   }
   else if (playerData.totalScore === 19 && playerData.numberOfCards === 3 && dealerData.faceCard === 10) {
-    textOutput.innerHTML = textOutput.innerHTML + " Player Score: " + playerData.totalScore + "\nHit...";
+    textOutput.innerHTML = textOutput.innerHTML + " Player Score: " + playerData.totalScore + "\nHit...\n";
     hit(playerData, playerTotal, playerCards, shuffledDeck);
   }
   // 1-away Charlie
   else if ((playerData.totalScore >= 19 && playerData.totalScore <= 21) && playerData.numberOfCards === 4) {
-    textOutput.innerHTML = textOutput.innerHTML + " Player Score: " + playerData.totalScore + "\nHit...";
+    textOutput.innerHTML = textOutput.innerHTML + " Player Score: " + playerData.totalScore + "\nHit...\n";
     hit(playerData, playerTotal, playerCards, shuffledDeck);
   }
   else {
-    textOutput.innerHTML = textOutput.innerHTML + " Player Score: " + playerData.totalScore + "\nStand.";
+    textOutput.innerHTML = textOutput.innerHTML + " Player Score: " + playerData.totalScore + "\nStand.\n";
     stand(playerData);
   }
 }
