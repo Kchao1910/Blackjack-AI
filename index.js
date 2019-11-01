@@ -1,3 +1,6 @@
+
+let textOutput = document.querySelector("#text-output");
+
 (function() {
   document.querySelector("#play-button").addEventListener("click", function() {
     game();
@@ -5,7 +8,18 @@
   document.querySelector("#reset-button").addEventListener("click", function() {
     resetGame();
   })
+  document.querySelector("#show-console-button").addEventListener("click", function() {
+    if (textOutput.style.visibility === 'hidden') {
+      textOutput.style.visibility = 'visible';
+    }
+    else
+    {
+      textOutput.style.visibility = 'hidden';
+    }
+  })
 })();
+
+let numGamesCounter = 1;
 
 let playerData = {
   aceSwitch: false,
@@ -77,6 +91,7 @@ function game() {
   if ((playerData.totalScore === 21 && dealerData.totalScore === 21) || ((dealerData.totalScore === 21 && playerData.totalScore < 21))) {
     dealerData.wins++;
     dealerScore.textContent = dealerData.wins;
+    textOutput.innerHTML = textOutput.innerHTML + 'Dealer Wins!\n';
     stopGame();
     return;
   }
@@ -84,6 +99,7 @@ function game() {
   if (playerData.totalScore === 21 && dealerData.totalScore < 21) {
     playerData.wins++;
     playerScore.textContent = playerData.wins;
+    textOutput.innerHTML = textOutput.innerHTML + 'Player Wins!\n';
     stopGame();
     return;
   }
@@ -91,6 +107,7 @@ function game() {
   if (playerData.totalScore <= 21 && dealerData.totalScore > 21) {
     playerData.wins++;
     playerScore.textContent = playerData.wins;
+    textOutput.innerHTML = textOutput.innerHTML + 'Player Wins!\n';
     stopGame();
     return;
   }
@@ -98,11 +115,13 @@ function game() {
   if (playerData.totalScore > 21 && dealerData.totalScore <= 21) {
     dealerData.wins++;
     dealerScore.textContent = dealerData.wins;
+    textOutput.innerHTML = textOutput.innerHTML + 'Dealer Wins!\n';
     stopGame();
     return;
   }
 
   if (playerData.totalScore > 21 && dealerData.totalScore > 21) {
+    textOutput.innerHTML = textOutput.innerHTML + 'Draw!\n';
     stopGame();
     return;
   }
@@ -114,6 +133,7 @@ function game() {
   softOrHard();
 
   console.log("Hard table: ", playerData.hardTable);
+  textOutput.innerHTML = textOutput.innerHTML + '===== Turn ' + numGamesCounter +  ' =====' + '\n';
 
   while (playerData.turnOver === false) {
     hardOrSoft(shuffledDeck);
@@ -124,19 +144,22 @@ function game() {
   if (playerData.totalScore > 21) {
     dealerData.wins++;
     dealerScore.textContent = dealerData.wins;
+    textOutput.innerHTML = textOutput.innerHTML + 'Dealer Wins!\n';
     stopGame();
     return;
   }
 
   while (dealerData.turnOver === false)  {
+    console.log(dealerData.turnOver)
     checkSoftHand();
     dealerAI(shuffledDeck);
     dealerTotal.textContent = dealerData.totalScore;
-  } 
+  }
 
   if (dealerData.totalScore > 21) {
     playerData.wins++;
     playerScore.textContent = playerData.wins;
+    textOutput.innerHTML = textOutput.innerHTML + 'Player Wins!\n';
     stopGame();
     return;
   }
@@ -144,6 +167,7 @@ function game() {
   if (dealerData.totalScore >= playerData.totalScore) {
     dealerData.wins++;
     dealerScore.textContent = dealerData.wins;
+    textOutput.innerHTML = textOutput.innerHTML + 'Dealer Wins!\n';
     stopGame();
     return;
   }
@@ -151,13 +175,24 @@ function game() {
   if (playerData.totalScore > dealerData.totalScore) {
     playerData.wins++;
     playerScore.textContent = playerData.wins;
+    textOutput.innerHTML = textOutput.innerHTML + 'Player Wins!\n';
     stopGame();
     return;
   }
 }
 
 function stopGame() {
+<<<<<<< HEAD
   return;
+=======
+  textOutput.innerHTML = textOutput.innerHTML + " Player Score: " + playerData.totalScore + "\n";
+  textOutput.innerHTML = textOutput.innerHTML + " Dealer Score: " + dealerData.totalScore + "\n";
+
+  let playButton = document.querySelector("#play-button");
+  let resetButton = document.querySelector("#reset-button");
+  playButton.disabled = true;
+  resetButton.disabled = false;
+>>>>>>> d5f1ca421fb7c367d01dcf5849fd1f4730571845
 }
 
 function getCard(shuffledDeck) {
@@ -238,6 +273,43 @@ function resetCards(cards) {
     elementChildren[3].textContent = "";
     elementChildren[5].textContent = "";
   }
+<<<<<<< HEAD
+=======
+  for (let i = 0; i < dealerCardContainer.length; ++i) {
+    dealerCardContainer[i].childNodes[1].textContent = '';
+    dealerCardContainer[i].childNodes[3].textContent = '';
+    dealerCardContainer[i].childNodes[5].textContent = '';
+  }
+
+  numGamesCounter += 1;
+
+  playerData['aceSwitch'] = false;
+  playerData['cardValues'] = [];
+  playerData['numberOfCards'] = 0;
+  playerData['over21'] = false;
+  playerData['hardTable'] = false;
+  playerData['totalScore'] = 0;
+  playerData['turnOver'] = false;
+
+  dealerData['aceSwitch'] = false;
+  dealerData['cardValues'] = [];
+  dealerData['numberOfCards'] = 0;
+  dealerData['over21'] = false;
+  dealerData['hardTable'] = false;
+  dealerData['totalScore'] = 0;
+  dealerData['turnOver'] = false;
+
+  let playerTotal = document.querySelector("#player-total");
+  let dealerTotal = document.querySelector("#dealer-total");
+
+  playerTotal.innerHTML = '';
+  dealerTotal.innerHTML = '';
+
+  let playButton = document.querySelector("#play-button");
+  let resetButton = document.querySelector("#reset-button");
+  playButton.disabled = false;
+  resetButton.disabled = true;
+>>>>>>> d5f1ca421fb7c367d01dcf5849fd1f4730571845
 }
 
 function fisherYatesShuffle(array) {
@@ -274,56 +346,76 @@ function hardTable(shuffledDeck) {
   }
 
   if (playerData.totalScore >= 5 && playerData.totalScore <= 11) {
+    textOutput.innerHTML = textOutput.innerHTML + " Player Score: " + playerData.totalScore + "\nHit...\n";
     hit(playerData, playerTotal, playerCards, shuffledDeck);
   } else if (playerData.totalScore === 12 && dealerData.faceCard >=1 && dealerData.faceCard <= 3 && dealerData.faceCard >= 7) {
+    textOutput.innerHTML = textOutput.innerHTML + " Player Score: " + playerData.totalScore + "\nHit...\n";
     hit(playerData, playerTotal, playerCards, shuffledDeck);
   } else if (playerData.totalScore === 12 && dealerData.faceCard >=4 && dealerData.faceCard <= 6) {
     if (playerData.numberOfCards >= 3) {
+      textOutput.innerHTML = textOutput.innerHTML + " Player Score: " + playerData.totalScore + "\nHit...\n";
       hit(playerData, playerTotal, playerCards, shuffledDeck);
     } else {
+      textOutput.innerHTML = textOutput.innerHTML + " Player Score: " + playerData.totalScore + "\nStand.\n";
       stand(playerData);
     }
   } else if (playerData.totalScore === 13 && dealerData.faceCard >=2 && dealerData.faceCard <= 6) {
     if (playerData.numberOfCards >= 3) {
+      textOutput.innerHTML = textOutput.innerHTML + " Player Score: " + playerData.totalScore + "\nHit...\n";
       hit(playerData, playerTotal, playerCards, shuffledDeck);
     } else {
+      textOutput.innerHTML = textOutput.innerHTML + " Player Score: " + playerData.totalScore + "\nStand.\n";
       stand(playerData);
     }
   } else if (playerData.totalScore === 13 && (dealerData.faceCard >=7 || dealerData.faceCard === 1)) {
+    textOutput.innerHTML = textOutput.innerHTML + " Player Score: " + playerData.totalScore + "\nHit...\n";
     hit(playerData, playerTotal, playerCards, shuffledDeck);
   } else if (playerData.totalScore === 14 && dealerData.faceCard >=2 && dealerData.faceCard <= 6) {
     if (playerData.numberOfCards === 4) {
+      textOutput.innerHTML = textOutput.innerHTML + " Player Score: " + playerData.totalScore + "\nHit...\n";
       hit(playerData, playerTotal, playerCards, shuffledDeck);
     } else {
+      textOutput.innerHTML = textOutput.innerHTML + " Player Score: " + playerData.totalScore + "\nStand.\n";
       stand(playerData);
     }
   } else if (playerData.totalScore === 14 && (dealerData.faceCard >=7 && dealerData.faceCard === 1)) {
+    textOutput.innerHTML = textOutput.innerHTML + " Player Score: " + playerData.totalScore + "\nHit...\n";
     hit(playerData, playerTotal, playerCards, shuffledDeck);
   } else if (playerData.totalScore === 15 && dealerData.faceCard >=2 && dealerData.faceCard <= 6) {
     if (playerData.numberOfCards === 4) {
+      textOutput.innerHTML = textOutput.innerHTML + " Player Score: " + playerData.totalScore + "\nHit...\n";
       hit(playerData, playerTotal, playerCards, shuffledDeck);
     } else {
+      textOutput.innerHTML = textOutput.innerHTML + " Player Score: " + playerData.totalScore + "\nStand.\n";
       stand(playerData);
     }
   } else if (playerData.totalScore === 15 && (dealerData.faceCard >= 7 || dealerData.faceCard === 1)) {
+    textOutput.innerHTML = textOutput.innerHTML + " Player Score: " + playerData.totalScore + "\nHit...\n";
     hit(playerData, playerTotal, playerCards, shuffledDeck);
   } else if (playerData.totalScore === 16 && dealerData.faceCard >= 2 && dealerData.faceCard <= 3) {
     if (playerData.numberOfCards === 4) {
+      textOutput.innerHTML = textOutput.innerHTML + " Player Score: " + playerData.totalScore + "\nHit...\n";
       hit(playerData, playerTotal, playerCards, shuffledDeck);
     } else {
+      textOutput.innerHTML = textOutput.innerHTML + " Player Score: " + playerData.totalScore + "\nStand.\n";
       stand(playerData);
     }
   } else if (playerData.totalScore === 16 && dealerData.faceCard >= 4 && dealerData.faceCard <= 6) {
+    textOutput.innerHTML = textOutput.innerHTML + " Player Score: " + playerData.totalScore + "\nStand.\n";
     stand(playerData);
   } else if (playerData.totalScore === 17 && dealerData.faceCard >= 2 && dealerData.faceCard <= 8) {
+    textOutput.innerHTML = textOutput.innerHTML + " Player Score: " + playerData.totalScore + "\nStand.\n";
     stand(playerData);
   } else if (playerData.totalScore === 17 && (dealerData.faceCard >= 9 && dealerData.faceCard === 1)) {
     if (playerData.numberOfCards === 4) {
+      textOutput.innerHTML = textOutput.innerHTML + " Player Score: " + playerData.totalScore + "\nHit...\n";
       hit(playerData, playerTotal, playerCards, shuffledDeck);
     } else {
+      textOutput.innerHTML = textOutput.innerHTML + " Player Score: " + playerData.totalScore + "\nStand.\n";
       stand(playerData);
     }
   } else {
+    textOutput.innerHTML = textOutput.innerHTML + " Player Score: " + playerData.totalScore + "\nStand.\n";
     stand(playerData);
   }
 }
@@ -338,21 +430,25 @@ function softTable(shuffledDeck) {
   if ((playerData.totalScore >= 12 && playerData.totalScore <= 17) ||
       (playerData.totalScore === 18 && (dealerData.faceCard >= 3 && dealerData.faceCard <= 6)))
   {
+    textOutput.innerHTML = textOutput.innerHTML + " Player Score: " + playerData.totalScore + "\nHit...";
     hit(playerData, playerTotal, playerCards, shuffledDeck);
   }
   // 2-away Charlie
   else if ((playerData.totalScore === 18 && playerData.numberOfCards === 3)) {
+    textOutput.innerHTML = textOutput.innerHTML + " Player Score: " + playerData.totalScore + "\nHit...";
     hit(playerData, playerTotal, playerCards, shuffledDeck);
   }
   else if (playerData.totalScore === 19 && playerData.numberOfCards === 3 && dealerData.faceCard === 10) {
+    textOutput.innerHTML = textOutput.innerHTML + " Player Score: " + playerData.totalScore + "\nHit...";
     hit(playerData, playerTotal, playerCards, shuffledDeck);
   }
   // 1-away Charlie
   else if ((playerData.totalScore >= 19 && playerData.totalScore <= 21) && playerData.numberOfCards === 4) {
+    textOutput.innerHTML = textOutput.innerHTML + " Player Score: " + playerData.totalScore + "\nHit...";
     hit(playerData, playerTotal, playerCards, shuffledDeck);
   }
   else {
-    console.log("stand");
+    textOutput.innerHTML = textOutput.innerHTML + " Player Score: " + playerData.totalScore + "\nStand.";
     stand(playerData);
   }
 }
@@ -386,28 +482,31 @@ function softOrHard() {
   }
 }
 
-function changeAce(player) {
-  if (player.aceSwitch === false && player.totalScore <= 11) {
-    player.aceSwitch = true;
-    player.totalScore += 10;
-  } 
+function changeAce() {
+  if (playerData.aceSwitch === false && playerData.totalScore <= 11) {
+    playerData.aceSwitch = true;
+    playerData.totalScore += 10;
+  }
 
-  if (player.aceSwitch === true && player.totalScore > 21) {
-    player.aceSwitch = false;
-    player.totalScore -= 10;
+  if (playerData.aceSwitch === true && playerData.totalScore > 21) {
+    playerData.aceSwitch = false;
+    playerData.totalScore -= 10;
   }
 }
 
 function dealerAI(shuffledDeck) {
   if (dealerData.totalScore >= 17 && dealerData.aceSwitch === false) {
+    console.log('1')
     stand(dealerData);
   } else if (dealerData.totalScore === 17 && dealerData.aceSwitch === true) {
+    console.log('2')
     hit(dealerData, dealerTotal, dealerCards, shuffledDeck);
   } else if (dealerData.totalScore <= 16) {
+    console.log('3')
     hit(dealerData, dealerTotal, dealerCards, shuffledDeck);
   } else {
     console.log("What happened?");
-  } 
+  }
 }
 
 function checkSoftHand() {
