@@ -31,8 +31,10 @@ let playerData = {
 };
 
 let dealerData = {
+  aceSwitch: false,
   cardValues: [],
   faceCard: 0,
+  softHand: false,
   numberOfCards: 0,
   over21: false,
   totalScore: 0,
@@ -125,6 +127,7 @@ function game() {
     textOutput.innerHTML += playerData.cardValues;
     hardOrSoft(shuffledDeck);
     softOrHard();
+    playerTotal.textContent = playerData.totalScore;
   }
 
   if (playerData.totalScore > 21) {
@@ -133,6 +136,36 @@ function game() {
     stopGame();
     return;
   }
+<<<<<<< HEAD
+=======
+
+  while (dealerData.turnOver === false)  {
+    checkSoftHand();
+    dealerAI(shuffledDeck);
+    dealerTotal.textContent = dealerData.totalScore;
+  } 
+
+  if (dealerData.totalScore > 21) {
+    playerData.wins++;
+    playerScore.textContent = playerData.wins;
+    stopGame();
+    return;
+  }
+
+  if (dealerData.totalScore >= playerData.totalScore) {
+    dealerData.wins++;
+    dealerScore.textContent = dealerData.wins;
+    stopGame();
+    return;
+  }
+
+  if (playerData.totalScore > dealerData.totalScore) {
+    playerData.wins++;
+    playerTotal.textContent = playerData.wins;
+    stopGame();
+    return;
+  }
+>>>>>>> ca8c08418019df7c3ed664d8d3b20a51b229ef30
 }
 
 function stopGame() {
@@ -182,6 +215,7 @@ function getMaximumValue(player, playerTotal) {
   if (one.length === 1 && ten.length === 1) {
     player.totalScore = 21;
     playerTotal.textContent = 21;
+    player.aceSwitch = true;
   }
 }
 
@@ -242,9 +276,9 @@ function hardOrSoft(shuffledDeck) {
   if (playerData.hardTable === true) {
     hardTable(shuffledDeck);
   } else {
-    changeAce();
+    changeAce(playerData);
     softTable(shuffledDeck);
-    changeAce();
+    changeAce(playerData);
   }
 }
 
@@ -256,42 +290,42 @@ function hardTable(shuffledDeck) {
   }
 
   if (playerData.totalScore >= 5 && playerData.totalScore <= 11) {
-    hit(shuffledDeck);
+    hit(playerData, playerTotal, playerCards, shuffledDeck);
   } else if (playerData.totalScore === 12 && dealerData.faceCard >=1 && dealerData.faceCard <= 3 && dealerData.faceCard >= 7) {
-    hit(shuffledDeck);
+    hit(playerData, playerTotal, playerCards, shuffledDeck);
   } else if (playerData.totalScore === 12 && dealerData.faceCard >=4 && dealerData.faceCard <= 6) {
     if (playerData.numberOfCards >= 3) {
-      hit(shuffledDeck);
+      hit(playerData, playerTotal, playerCards, shuffledDeck);
     } else {
       stand(playerData);
     }
   } else if (playerData.totalScore === 13 && dealerData.faceCard >=2 && dealerData.faceCard <= 6) {
     if (playerData.numberOfCards >= 3) {
-      hit(shuffledDeck);
+      hit(playerData, playerTotal, playerCards, shuffledDeck);
     } else {
       stand(playerData);
     }
   } else if (playerData.totalScore === 13 && (dealerData.faceCard >=7 || dealerData.faceCard === 1)) {
-    hit(shuffledDeck);
+    hit(playerData, playerTotal, playerCards, shuffledDeck);
   } else if (playerData.totalScore === 14 && dealerData.faceCard >=2 && dealerData.faceCard <= 6) {
     if (playerData.numberOfCards === 4) {
-      hit(shuffledDeck);
+      hit(playerData, playerTotal, playerCards, shuffledDeck);
     } else {
       stand(playerData);
     }
   } else if (playerData.totalScore === 14 && (dealerData.faceCard >=7 && dealerData.faceCard === 1)) {
-    hit(shuffledDeck);
+    hit(playerData, playerTotal, playerCards, shuffledDeck);
   } else if (playerData.totalScore === 15 && dealerData.faceCard >=2 && dealerData.faceCard <= 6) {
     if (playerData.numberOfCards === 4) {
-      hit(shuffledDeck);
+      hit(playerData, playerTotal, playerCards, shuffledDeck);
     } else {
       stand(playerData);
     }
   } else if (playerData.totalScore === 15 && (dealerData.faceCard >= 7 || dealerData.faceCard === 1)) {
-    hit(shuffledDeck);
+    hit(playerData, playerTotal, playerCards, shuffledDeck);
   } else if (playerData.totalScore === 16 && dealerData.faceCard >= 2 && dealerData.faceCard <= 3) {
     if (playerData.numberOfCards === 4) {
-      hit(shuffledDeck);
+      hit(playerData, playerTotal, playerCards, shuffledDeck);
     } else {
       stand(playerData);
     }
@@ -301,7 +335,7 @@ function hardTable(shuffledDeck) {
     stand(playerData);
   } else if (playerData.totalScore === 17 && (dealerData.faceCard >= 9 && dealerData.faceCard === 1)) {
     if (playerData.numberOfCards === 4) {
-      hit(shuffledDeck);
+      hit(playerData, playerTotal, playerCards, shuffledDeck);
     } else {
       stand(playerData);
     }
@@ -320,18 +354,18 @@ function softTable(shuffledDeck) {
   if ((playerData.totalScore >= 12 && playerData.totalScore <= 17) ||
       (playerData.totalScore === 18 && (dealerData.faceCard >= 3 && dealerData.faceCard <= 6)))
   {
-    hit(shuffledDeck);
+    hit(playerData, playerTotal, playerCards, shuffledDeck);
   }
   // 2-away Charlie
   else if ((playerData.totalScore === 18 && playerData.numberOfCards === 3)) {
-    hit(shuffledDeck);
+    hit(playerData, playerTotal, playerCards, shuffledDeck);
   }
   else if (playerData.totalScore === 19 && playerData.numberOfCards === 3 && dealerData.faceCard === 10) {
-    hit(shuffledDeck);
+    hit(playerData, playerTotal, playerCards, shuffledDeck);
   }
   // 1-away Charlie
   else if ((playerData.totalScore >= 19 && playerData.totalScore <= 21) && playerData.numberOfCards === 4) {
-    hit(shuffledDeck);
+    hit(playerData, playerTotal, playerCards, shuffledDeck);
   }
   else {
     console.log("stand");
@@ -339,20 +373,20 @@ function softTable(shuffledDeck) {
   }
 }
 
-function hit(shuffledDeck) {
+function hit(player, playerTotal, playerCards, shuffledDeck) {
   let card = getCard(shuffledDeck);
-  let nextCardPosition = getCardPlacement(playerData);
+  let nextCardPosition = getCardPlacement(player);
 
   displayCard(card, nextCardPosition, playerCards);
 
-  playerData.cardValues.push(card);
-  playerData.numberOfCards++;
-  playerData.totalScore += card;
+  player.cardValues.push(card);
+  player.numberOfCards++;
+  player.totalScore += card;
 
-  playerTotal.textContent = playerData.totalScore;
+  playerTotal.textContent = player.totalScore;
 
-  if (playerData.totalScore >= 21) {
-    playerData.turnOver = true;
+  if (player.totalScore >= 21) {
+    player.turnOver = true;
   }
 }
 
@@ -368,14 +402,49 @@ function softOrHard() {
   }
 }
 
+<<<<<<< HEAD
 function changeAce() {
   if (playerData.aceSwitch === false && playerData.totalScore <= 11) {
     playerData.aceSwitch = true;
     playerData.totalScore += 10;
   }
+=======
+function changeAce(player) {
+  if (player.aceSwitch === false && player.totalScore <= 11) {
+    player.aceSwitch = true;
+    player.totalScore += 10;
+  } 
+>>>>>>> ca8c08418019df7c3ed664d8d3b20a51b229ef30
 
-  if (playerData.aceSwitch === true && playerData.totalScore > 21) {
-    playerData.aceSwitch = false;
-    playerData.totalScore -= 10;
+  if (player.aceSwitch === true && player.totalScore > 21) {
+    player.aceSwitch = false;
+    player.totalScore -= 10;
   }
 }
+
+function dealerAI(shuffledDeck) {
+  if (dealerData.totalScore >= 17 && dealerData.aceSwitch === false) {
+    stand(dealerData);
+  } else if (dealerData.totalScore === 17 && dealerData.aceSwitch === true) {
+    hit(dealerData, dealerTotal, dealerCards, shuffledDeck);
+  } else if (dealerData.totalScore <= 16) {
+    hit(dealerData, dealerTotal, dealerCards, shuffledDeck);
+  } else {
+    console.log("What happened?");
+  } 
+}
+
+function checkSoftHand() {
+  if (dealerData.cardValues.findIndex(getIndex) !== -1 && dealerData.softHand === false) {
+    dealerData.softHand = true;
+  } else {
+    dealerData.softHand = false;
+  }
+}
+<<<<<<< HEAD
+=======
+
+function getIndex(element) {
+  return element === 1;
+}
+>>>>>>> ca8c08418019df7c3ed664d8d3b20a51b229ef30
