@@ -1,4 +1,3 @@
-
 let textOutput = document.querySelector("#text-output");
 
 (function() {
