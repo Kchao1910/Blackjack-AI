@@ -263,11 +263,9 @@ function softTable(shuffledDeck) {
     hit(shuffledDeck);
   }
   else {
-    console.log('unchecked error');
-    return;
+    stand(shuffledDeck);
   }
 }
-
 
 function hit(shuffledDeck) {
   let card = getCard(shuffledDeck);
@@ -289,5 +287,3 @@ function hit(shuffledDeck) {
 function stand(player) {
   player.turnOver = true;
 }
-=======
->>>>>>> e5409acb8aee553efab1695d5ced01c7ea70bdbe
