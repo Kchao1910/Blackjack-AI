@@ -1,3 +1,40 @@
+let theme = {
+  darkMode: false
+};
+
+(function() {
+  document.querySelector(".material-icons").addEventListener("click", function() {
+    changeTheme();
+  });
+})();
+
+function changeTheme() {
+  if (theme.darkMode === false) {
+    theme.darkMode = true;
+    document.body.style.backgroundColor = "black";
+    document.body.style.color = "white";
+    document.querySelector(".material-icons").textContent = "brightness_4";
+    document.querySelector("#show-console-button").style.backgroundColor = "white";
+    document.querySelector("#play-button").style.backgroundColor = "white";
+    document.querySelector("#reset-button").style.backgroundColor = "white";
+    document.querySelector("#show-console-button").style.color = "black";
+    document.querySelector("#play-button").style.color = "black";
+    document.querySelector("#reset-button").style.color = "black";
+  } else {
+    theme.darkMode = false;
+    document.body.style.backgroundColor = "white";
+    document.body.style.color = "black";
+    document.querySelector(".material-icons").textContent = "brightness_5";
+    document.querySelector("#show-console-button").style.backgroundColor = "black";
+    document.querySelector("#play-button").style.backgroundColor = "black";
+    document.querySelector("#reset-button").style.backgroundColor = "black";
+    document.querySelector("#show-console-button").style.color = "white";
+    document.querySelector("#play-button").style.color = "white";
+    document.querySelector("#reset-button").style.color = "white";
+  }
+}
+
+
 let textOutput = document.querySelector("#text-output");
 
 (function() {

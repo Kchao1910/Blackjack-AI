@@ -5,6 +5,7 @@
 /* element styles */
 body {
   background: rgba(0, 0, 0, .01);
+  transition: 1s;
 }
 
 button {
