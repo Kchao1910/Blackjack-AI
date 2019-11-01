@@ -182,17 +182,7 @@ function game() {
 }
 
 function stopGame() {
-<<<<<<< HEAD
   return;
-=======
-  textOutput.innerHTML = textOutput.innerHTML + " Player Score: " + playerData.totalScore + "\n";
-  textOutput.innerHTML = textOutput.innerHTML + " Dealer Score: " + dealerData.totalScore + "\n";
-
-  let playButton = document.querySelector("#play-button");
-  let resetButton = document.querySelector("#reset-button");
-  playButton.disabled = true;
-  resetButton.disabled = false;
->>>>>>> d5f1ca421fb7c367d01dcf5849fd1f4730571845
 }
 
 function getCard(shuffledDeck) {
@@ -273,43 +263,6 @@ function resetCards(cards) {
     elementChildren[3].textContent = "";
     elementChildren[5].textContent = "";
   }
-<<<<<<< HEAD
-=======
-  for (let i = 0; i < dealerCardContainer.length; ++i) {
-    dealerCardContainer[i].childNodes[1].textContent = '';
-    dealerCardContainer[i].childNodes[3].textContent = '';
-    dealerCardContainer[i].childNodes[5].textContent = '';
-  }
-
-  numGamesCounter += 1;
-
-  playerData['aceSwitch'] = false;
-  playerData['cardValues'] = [];
-  playerData['numberOfCards'] = 0;
-  playerData['over21'] = false;
-  playerData['hardTable'] = false;
-  playerData['totalScore'] = 0;
-  playerData['turnOver'] = false;
-
-  dealerData['aceSwitch'] = false;
-  dealerData['cardValues'] = [];
-  dealerData['numberOfCards'] = 0;
-  dealerData['over21'] = false;
-  dealerData['hardTable'] = false;
-  dealerData['totalScore'] = 0;
-  dealerData['turnOver'] = false;
-
-  let playerTotal = document.querySelector("#player-total");
-  let dealerTotal = document.querySelector("#dealer-total");
-
-  playerTotal.innerHTML = '';
-  dealerTotal.innerHTML = '';
-
-  let playButton = document.querySelector("#play-button");
-  let resetButton = document.querySelector("#reset-button");
-  playButton.disabled = false;
-  resetButton.disabled = true;
->>>>>>> d5f1ca421fb7c367d01dcf5849fd1f4730571845
 }
 
 function fisherYatesShuffle(array) {
