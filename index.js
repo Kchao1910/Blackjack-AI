@@ -136,36 +136,6 @@ function game() {
     stopGame();
     return;
   }
-<<<<<<< HEAD
-=======
-
-  while (dealerData.turnOver === false)  {
-    checkSoftHand();
-    dealerAI(shuffledDeck);
-    dealerTotal.textContent = dealerData.totalScore;
-  } 
-
-  if (dealerData.totalScore > 21) {
-    playerData.wins++;
-    playerScore.textContent = playerData.wins;
-    stopGame();
-    return;
-  }
-
-  if (dealerData.totalScore >= playerData.totalScore) {
-    dealerData.wins++;
-    dealerScore.textContent = dealerData.wins;
-    stopGame();
-    return;
-  }
-
-  if (playerData.totalScore > dealerData.totalScore) {
-    playerData.wins++;
-    playerTotal.textContent = playerData.wins;
-    stopGame();
-    return;
-  }
->>>>>>> ca8c08418019df7c3ed664d8d3b20a51b229ef30
 }
 
 function stopGame() {
@@ -234,15 +204,21 @@ function resetGame() {
     dealerCardContainer[i].childNodes[5].textContent = '';
   }
 
+  playerData['aceSwitch'] = false
   playerData['cardValues'] = [];
   playerData['numberOfCards'] = 0;
   playerData['over21'] = false;
+  playerData['hardTable'] = false
   playerData['totalScore'] = 0;
+  playerData['turnOver'] = false
 
+  dealerData['aceSwitch'] = false
   dealerData['cardValues'] = [];
   dealerData['numberOfCards'] = 0;
   dealerData['over21'] = false;
+  dealerData['hardTable'] = false
   dealerData['totalScore'] = 0;
+  dealerData['turnOver'] = false
 
   let playerTotal = document.querySelector("#player-total");
   let dealerTotal = document.querySelector("#dealer-total");
@@ -402,36 +378,31 @@ function softOrHard() {
   }
 }
 
-<<<<<<< HEAD
 function changeAce() {
   if (playerData.aceSwitch === false && playerData.totalScore <= 11) {
     playerData.aceSwitch = true;
     playerData.totalScore += 10;
   }
-=======
-function changeAce(player) {
-  if (player.aceSwitch === false && player.totalScore <= 11) {
-    player.aceSwitch = true;
-    player.totalScore += 10;
-  } 
->>>>>>> ca8c08418019df7c3ed664d8d3b20a51b229ef30
 
-  if (player.aceSwitch === true && player.totalScore > 21) {
-    player.aceSwitch = false;
-    player.totalScore -= 10;
+  if (playerData.aceSwitch === true && playerData.totalScore > 21) {
+    playerData.aceSwitch = false;
+    playerData.totalScore -= 10;
   }
 }
 
 function dealerAI(shuffledDeck) {
   if (dealerData.totalScore >= 17 && dealerData.aceSwitch === false) {
+    console.log('1')
     stand(dealerData);
   } else if (dealerData.totalScore === 17 && dealerData.aceSwitch === true) {
+    console.log('2')
     hit(dealerData, dealerTotal, dealerCards, shuffledDeck);
   } else if (dealerData.totalScore <= 16) {
+    console.log('3')
     hit(dealerData, dealerTotal, dealerCards, shuffledDeck);
   } else {
     console.log("What happened?");
-  } 
+  }
 }
 
 function checkSoftHand() {
@@ -441,10 +412,3 @@ function checkSoftHand() {
     dealerData.softHand = false;
   }
 }
-<<<<<<< HEAD
-=======
-
-function getIndex(element) {
-  return element === 1;
-}
->>>>>>> ca8c08418019df7c3ed664d8d3b20a51b229ef30
