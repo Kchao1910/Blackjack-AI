@@ -206,17 +206,67 @@ function fisherYatesShuffle(array) {
 
   return array;
 }
-<<<<<<< HEAD
-
 
 // hard table
-function playerTurn2(shuffledDeck) {
+function hardTable(shuffledDeck) {
   // base case
   if (playerData.numberOfCards === 5) {
     return;
   }
 
-  if (playerData.totalScore >= 5 && playerData.totalScore <= 11)
+  if (playerData.totalScore >= 5 && playerData.totalScore <= 11) {
+    hit(shuffledDeck);
+  } else if (playerData.totalScore === 12 && dealerData.faceCard >=1 && dealerData.faceCard <= 3 && dealerData.faceCard >= 7) {
+    hit(shuffledDeck);
+  } else if (playerData.totalScore === 12 && dealerData.faceCard >=4 && dealerData.faceCard <= 6) {
+    if (playerData.numberOfCards >= 3) {
+      hit(shuffledDeck);
+    } else {
+      stand(playerData);
+    }
+  } else if (playerData.totalScore === 13 && dealerData.faceCard >=2 && dealerData.faceCard <= 6) {
+    if (playerData.numberOfCards >= 3) {
+      hit(shuffledDeck);
+    } else {
+      stand(playerData);
+    }
+  } else if (playerData.totalScore === 13 && (dealerData.faceCard >=7 || dealerData.faceCard === 1)) {
+    hit(shuffledDeck);
+  } else if (playerData.totalScore === 14 && dealerData.faceCard >=2 && dealerData.faceCard <= 6) {
+    if (playerData.numberOfCards === 4) {
+      hit(shuffledDeck);
+    } else {
+      stand(playerData);
+    }
+  } else if (playerData.totalScore === 14 && (dealerData.faceCard >=7 && dealerData.faceCard === 1)) {
+    hit(shuffledDeck);
+  } else if (playerData.totalScore === 15 && dealerData.faceCard >=2 && dealerData.faceCard <= 6) {
+    if (playerData.numberOfCards === 4) {
+      hit(shuffledDeck);
+    } else {
+      stand(playerData);
+    }
+  } else if (playerData.totalScore === 15 && (dealerData.faceCard >= 7 || dealerData.faceCard === 1)) {
+    hit(shuffledDeck);
+  } else if (playerData.totalScore === 16 && dealerData.faceCard >= 2 && dealerData.faceCard <= 3) {
+    if (playerData.numberOfCards === 4) {
+      hit(shuffledDeck);
+    } else {
+      stand(playerData);
+    }
+  } else if (playerData.totalScore === 16 && dealerData.faceCard >= 4 && dealerData.faceCard <= 6) {
+    stand(playerData);
+  } else if (playerData.totalScore === 17 && dealerData.faceCard >= 2 && dealerData.faceCard <= 8) {
+    stand(playerData);
+  } else if (playerData.totalScore === 17 && (dealerData.faceCard >= 9 && dealerData.faceCard === 1)) {
+    if (playerData.numberOfCards === 4) {
+      hit(shuffledDeck);
+    } else {
+      stand(playerData);
+    }
+  } else {
+    stand(playerData);
+  }
 }
 
 // soft table
@@ -267,5 +317,3 @@ function hit(shuffledDeck) {
 function stand(player) {
   player.turnOver = true;
 }
-=======
->>>>>>> e5409acb8aee553efab1695d5ced01c7ea70bdbe
