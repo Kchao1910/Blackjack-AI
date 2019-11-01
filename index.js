@@ -8,9 +8,11 @@
 })();
 
 let playerData = {
+  aceSwitch: false,
   cardValues: [],
   numberOfCards: 0,
   over21: false,
+  hardTable: false,
   totalScore: 0,
   turnOver: false,
   wins: 0
@@ -70,35 +72,57 @@ function game() {
     dealerData.wins++;
     dealerScore.textContent = dealerData.wins;
     stopGame();
+    return;
   }
 
   if (playerData.totalScore === 21 && dealerData.totalScore < 21) {
     playerData.wins++;
     playerScore.textContent = playerData.wins;
     stopGame();
+    return;
   }
 
   if (playerData.totalScore <= 21 && dealerData.totalScore > 21) {
     playerData.wins++;
     playerScore.textContent = playerData.wins;
     stopGame();
+    return;
   }
 
   if (playerData.totalScore > 21 && dealerData.totalScore <= 21) {
     dealerData.wins++;
     dealerScore.textContent = dealerData.wins;
     stopGame();
+    return;
   }
 
   if (playerData.totalScore > 21 && dealerData.totalScore > 21) {
     stopGame();
+    return;
   }
 
   console.log(dealerData.cardValues, playerData.cardValues);
   console.log(playerCards);
   // Table based decision making section
-  while (playerData.turnOver !== true) {
-    playerTurn2(shuffledDeck);
+
+  softOrHard();
+
+  console.log("Hard table: ", playerData.hardTable);
+
+  while (playerData.turnOver === false) {
+    hardOrSoft(shuffledDeck);
+    softOrHard();
+  }
+
+  if (playerData.totalScore > 21) {
+    dealerData.wins++;
+    dealerScore.textContent = dealerData.wins;
+    stopGame();
+    return;
+  }
+
+  while (dealerData.turnOver === false) {
+
   }
 }
 
@@ -205,6 +229,16 @@ function fisherYatesShuffle(array) {
   return array;
 }
 
+function hardOrSoft(shuffledDeck) {
+  if (playerData.hardTable === true) {
+    hardTable(shuffledDeck);
+  } else {
+    changeAce();
+    softTable(shuffledDeck);
+    changeAce();
+  }
+}
+
 // hard table
 function hardTable(shuffledDeck) {
   // base case
@@ -274,48 +308,25 @@ function softTable(shuffledDeck) {
     return;
   }
 
-  /*
-  if (playerData.totalScore <= 15) {
-    hit(shuffledDeck);
-  } else if (playerData.totalScore === 16 && dealerData.faceCard >= 2 && dealerData.faceCard <= 3) {
-    hit(shuffledDeck);
-  } else if (playerData.totalScore === 16 && dealerData.faceCard >= 4 && dealerData.faceCard <= 6) {
-    stand(playerData);
-  } else if (playerData.totalScore === 16 && (dealerData.faceCard >= 7 || dealerData.faceCard === 1)) {
-    hit(shuffledDeck);
-  } else if (playerData.totalScore === 17 && dealerData.faceCard >= 2 && dealerData.faceCard <= 8) {
-    stand(playerData);
-  } else if (playerData.totalScore === 17 && (dealerData.faceCard >= 9 || dealerData.faceCard === 1)) {
-    hit(shuffledDeck);
-  } else if (playerData.totalScore >= 18) {
-    stand(playerData);
-  } else {
-    console.log("unchecked error");
-    return;
-  }
-  */
-  let pScore = playerData.totalScore;
-  let dFaceCard = dealerData.faceCard;
-  let pNumCards = playerData.numberOfCards;
-
-  if ((pScore >= 12 && pScore <= 17) ||
-      (pScore === 18 && (dFaceCard >= 3 and dFaceCard <= 6)))
+  if ((playerData.totalScore >= 12 && playerData.totalScore <= 17) ||
+      (playerData.totalScore === 18 && (dealerData.faceCard >= 3 && dealerData.faceCard <= 6)))
   {
     hit(shuffledDeck);
   }
   // 2-away Charlie
-  else if ((pScore === 18 && pNumCards === 3)) {
+  else if ((playerData.totalScore === 18 && playerData.numberOfCards === 3)) {
     hit(shuffledDeck);
   }
-  else if (pScore === 19 && pNumCards === 3 && dFaceCard === 10) {
+  else if (playerData.totalScore === 19 && playerData.numberOfCards === 3 && dealerData.faceCard === 10) {
     hit(shuffledDeck);
   }
   // 1-away Charlie
-  else if ((pScore >= 19 && pScore <= 21) && pNumCards === 4) {
+  else if ((playerData.totalScore >= 19 && playerData.totalScore <= 21) && playerData.numberOfCards === 4) {
     hit(shuffledDeck);
   }
   else {
-    stand(shuffledDeck);
+    console.log("stand");
+    stand(playerData);
   }
 }
 
@@ -339,3 +350,24 @@ function hit(shuffledDeck) {
 function stand(player) {
   player.turnOver = true;
 }
+
+function softOrHard() {
+  if ((playerData.cardValues.filter(value => value === 1)).length >= 1) {
+    playerData.hardTable = false;
+  } else {
+    playerData.hardTable = true;
+  }
+}
+
+function changeAce() {
+  if (playerData.aceSwitch === false && playerData.totalScore <= 11) {
+    playerData.aceSwitch = true;
+    playerData.totalScore += 10;
+  } 
+
+  if (playerData.aceSwitch === true && playerData.totalScore > 21) {
+    playerData.aceSwitch = false;
+    playerData.totalScore -= 10;
+  }
+}
+
