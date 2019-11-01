@@ -1,9 +1,21 @@
+
+let textOutput = document.querySelector("#text-output");
+
 (function() {
   document.querySelector("#play-button").addEventListener("click", function() {
     game();
   });
   document.querySelector("#reset-button").addEventListener("click", function() {
     resetGame();
+  })
+  document.querySelector("#show-console-button").addEventListener("click", function() {
+    if (textOutput.style.visibility === 'hidden') {
+      textOutput.style.visibility = 'visible';
+    }
+    else
+    {
+      textOutput.style.visibility = 'hidden';
+    }
   })
 })();
 
@@ -110,6 +122,7 @@ function game() {
   console.log("Hard table: ", playerData.hardTable);
 
   while (playerData.turnOver === false) {
+    textOutput.innerHTML += playerData.cardValues;
     hardOrSoft(shuffledDeck);
     softOrHard();
   }
@@ -119,10 +132,6 @@ function game() {
     dealerScore.textContent = dealerData.wins;
     stopGame();
     return;
-  }
-
-  while (dealerData.turnOver === false) {
-
   }
 }
 
@@ -363,11 +372,10 @@ function changeAce() {
   if (playerData.aceSwitch === false && playerData.totalScore <= 11) {
     playerData.aceSwitch = true;
     playerData.totalScore += 10;
-  } 
+  }
 
   if (playerData.aceSwitch === true && playerData.totalScore > 21) {
     playerData.aceSwitch = false;
     playerData.totalScore -= 10;
   }
 }
-

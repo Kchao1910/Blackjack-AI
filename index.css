@@ -84,6 +84,20 @@ sup {
   transform: rotate(180deg);
 }
 
+.text-output-container {
+  display: flex;
+  justify-content: center;
+}
+
+.text-output {
+  width: 600px;
+  height: 500px;
+  overflow-y: scroll;
+  background: rgb(56,56,56);
+  color: lightblue;
+  visibility: hidden;
+}
+
 #scoreboard {
   display: inherit;
   justify-content: space-around;
