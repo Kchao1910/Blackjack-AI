@@ -146,7 +146,7 @@ function game() {
 
   if (playerData.totalScore > dealerData.totalScore) {
     playerData.wins++;
-    playerTotal.textContent = playerData.wins;
+    playerScore.textContent = playerData.wins;
     stopGame();
     return;
   }
