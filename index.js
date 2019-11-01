@@ -2,6 +2,9 @@
   document.querySelector("#play-button").addEventListener("click", function() {
     game();
   });
+  document.querySelector("#reset-button").addEventListener("click", function() {
+    resetGame();
+  })
 })();
 
 let playerData = {
@@ -39,7 +42,7 @@ let cards = [
   4, 4, 4, 4,
   5, 5, 5, 5,
   6, 6, 6, 6,
-  7, 7, 7, 7, 
+  7, 7, 7, 7,
   8, 8, 8, 8,
   9, 9, 9, 9,
   10, 10, 10, 10,
@@ -66,21 +69,46 @@ function game() {
   if ((playerData.totalScore === 21 && dealerData.totalScore === 21) || ((dealerData.totalScore === 21 && playerData.totalScore < 21))) {
     dealerData.wins++;
     dealerScore.textContent = dealerData.wins;
+    stopGame();
   }
 
   if (playerData.totalScore === 21 && dealerData.totalScore < 21) {
     playerData.wins++;
     playerScore.textContent = playerData.wins;
+    stopGame();
+  }
+
+  if (playerData.totalScore <= 21 && dealerData.totalScore > 21) {
+    playerData.wins++;
+    playerScore.textContent = playerData.wins;
+    stopGame();
+  }
+
+  if (playerData.totalScore > 21 && dealerData.totalScore <= 21) {
+    dealerData.wins++;
+    dealerScore.textContent = dealerData.wins;
+    stopGame();
+  }
+
+  if (playerData.totalScore > 21 && dealerData.totalScore > 21) {
+    stopGame();
   }
 
   console.log(dealerData.cardValues, playerData.cardValues);
-
+  console.log(playerCards);
   // Table based decision making section
   while (playerData.turnOver !== true) {
     playerTurn2(shuffledDeck);
   }
 
 
+}
+
+function stopGame() {
+  let playButton = document.querySelector("#play-button");
+  let resetButton = document.querySelector("#reset-button");
+  playButton.disabled = true;
+  resetButton.disabled = false;
 }
 
 function getCard(shuffledDeck) {
@@ -126,6 +154,42 @@ function getMaximumValue(player, playerTotal) {
   }
 }
 
+function resetGame() {
+  let playerCardContainer = document.getElementsByClassName("player-card");
+  let dealerCardContainer = document.getElementsByClassName("dealer-card");
+
+  for (let i = 0; i < playerCardContainer.length; ++i) {
+    playerCardContainer[i].childNodes[1].textContent = '';
+    playerCardContainer[i].childNodes[3].textContent = '';
+    playerCardContainer[i].childNodes[5].textContent = '';
+  }
+  for (let i = 0; i < dealerCardContainer.length; ++i) {
+    dealerCardContainer[i].childNodes[1].textContent = '';
+    dealerCardContainer[i].childNodes[3].textContent = '';
+    dealerCardContainer[i].childNodes[5].textContent = '';
+  }
+
+  playerData['cardValues'] = [];
+  playerData['numberOfCards'] = 0;
+  playerData['over21'] = false;
+  playerData['totalScore'] = 0;
+
+  dealerData['cardValues'] = [];
+  dealerData['numberOfCards'] = 0;
+  dealerData['over21'] = false;
+  dealerData['totalScore'] = 0;
+
+  let playerTotal = document.querySelector("#player-total");
+  let dealerTotal = document.querySelector("#dealer-total");
+
+  playerTotal.innerHTML = '';
+  dealerTotal.innerHTML = '';
+
+  let playButton = document.querySelector("#play-button");
+  let resetButton = document.querySelector("#reset-button");
+  playButton.disabled = false;
+  resetButton.disabled = true;
+}
 
 function fisherYatesShuffle(array) {
   var currentIndex = array.length, temporaryValue, randomIndex;
@@ -142,6 +206,7 @@ function fisherYatesShuffle(array) {
 
   return array;
 }
+<<<<<<< HEAD
 
 
 // hard table
@@ -202,3 +267,5 @@ function hit(shuffledDeck) {
 function stand(player) {
   player.turnOver = true;
 }
+=======
+>>>>>>> e5409acb8aee553efab1695d5ced01c7ea70bdbe
