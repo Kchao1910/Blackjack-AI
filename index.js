@@ -100,8 +100,6 @@ function game() {
   while (playerData.turnOver !== true) {
     playerTurn2(shuffledDeck);
   }
-
-
 }
 
 function stopGame() {
@@ -276,6 +274,7 @@ function softTable(shuffledDeck) {
     return;
   }
 
+  /*
   if (playerData.totalScore <= 15) {
     hit(shuffledDeck);
   } else if (playerData.totalScore === 16 && dealerData.faceCard >= 2 && dealerData.faceCard <= 3) {
@@ -294,8 +293,31 @@ function softTable(shuffledDeck) {
     console.log("unchecked error");
     return;
   }
-}
+  */
+  let pScore = playerData.totalScore;
+  let dFaceCard = dealerData.faceCard;
+  let pNumCards = playerData.numberOfCards;
 
+  if ((pScore >= 12 && pScore <= 17) ||
+      (pScore === 18 && (dFaceCard >= 3 and dFaceCard <= 6)))
+  {
+    hit(shuffledDeck);
+  }
+  // 2-away Charlie
+  else if ((pScore === 18 && pNumCards === 3)) {
+    hit(shuffledDeck);
+  }
+  else if (pScore === 19 && pNumCards === 3 && dFaceCard === 10) {
+    hit(shuffledDeck);
+  }
+  // 1-away Charlie
+  else if ((pScore >= 19 && pScore <= 21) && pNumCards === 4) {
+    hit(shuffledDeck);
+  }
+  else {
+    stand(shuffledDeck);
+  }
+}
 
 function hit(shuffledDeck) {
   let card = getCard(shuffledDeck);
