@@ -136,6 +136,33 @@ function game() {
     stopGame();
     return;
   }
+
+  while (dealerData.turnOver === false)  {
+    checkSoftHand();
+    dealerAI(shuffledDeck);
+    dealerTotal.textContent = dealerData.totalScore;
+  }
+
+  if (dealerData.totalScore > 21) {
+    playerData.wins++;
+    playerScore.textContent = playerData.wins;
+    stopGame();
+    return;
+  }
+
+  if (dealerData.totalScore >= playerData.totalScore) {
+    dealerData.wins++;
+    dealerScore.textContent = dealerData.wins;
+    stopGame();
+    return;
+  }
+
+  if (playerData.totalScore > dealerData.totalScore) {
+    playerData.wins++;
+    playerScore.textContent = playerData.wins;
+    stopGame();
+    return;
+  }
 }
 
 function stopGame() {
