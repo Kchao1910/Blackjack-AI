@@ -55,8 +55,12 @@ let cards = [
   10, 10, 10, 10
 ];
 
+let cardClone = cards;
+
 function game() {
-  let shuffledDeck = fisherYatesShuffle(cards);
+  resetGame();
+
+  let shuffledDeck = fisherYatesShuffle(cardClone);
   // Initial turn for both players
   playerTurn(playerData, playerCards, playerTotal, shuffledDeck);
   playerTurn(playerData, playerCards, playerTotal, shuffledDeck);
@@ -153,10 +157,7 @@ function game() {
 }
 
 function stopGame() {
-  let playButton = document.querySelector("#play-button");
-  let resetButton = document.querySelector("#reset-button");
-  playButton.disabled = true;
-  resetButton.disabled = false;
+  return;
 }
 
 function getCard(shuffledDeck) {
@@ -204,40 +205,39 @@ function getMaximumValue(player, playerTotal) {
 }
 
 function resetGame() {
-  let playerCardContainer = document.getElementsByClassName("player-card");
-  let dealerCardContainer = document.getElementsByClassName("dealer-card");
+  resetCards(playerCards);
+  resetCards(dealerCards);
 
-  for (let i = 0; i < playerCardContainer.length; ++i) {
-    playerCardContainer[i].childNodes[1].textContent = '';
-    playerCardContainer[i].childNodes[3].textContent = '';
-    playerCardContainer[i].childNodes[5].textContent = '';
+  playerTotal.textContent = "0";
+  dealerTotal.textContent = "0";
+
+  playerData.aceSwitch = false;
+  playerData.cardValues = [];
+  playerData.numberOfCards = 0;
+  playerData.over21 = false;
+  playerData.hardTable = false;
+  playerData.totalScore = 0;
+  playerData.turnOver = false;
+
+  dealerData.aceSwitch = false;
+  dealerData.cardValues = [];
+  dealerData.faceCard =  0;
+  dealerData.softHand = false;
+  dealerData.numberOfCards = 0;
+  dealerData.over21 = false;
+  dealerData.totalScore = 0;
+  dealerData.turnOver = false;
+  
+  cardClone = cards;
+}
+
+function resetCards(cards) {
+  for (let element of cards) {
+    let elementChildren = element.childNodes;
+    elementChildren[1].textContent = "";
+    elementChildren[3].textContent = "";
+    elementChildren[5].textContent = "";
   }
-  for (let i = 0; i < dealerCardContainer.length; ++i) {
-    dealerCardContainer[i].childNodes[1].textContent = '';
-    dealerCardContainer[i].childNodes[3].textContent = '';
-    dealerCardContainer[i].childNodes[5].textContent = '';
-  }
-
-  playerData['cardValues'] = [];
-  playerData['numberOfCards'] = 0;
-  playerData['over21'] = false;
-  playerData['totalScore'] = 0;
-
-  dealerData['cardValues'] = [];
-  dealerData['numberOfCards'] = 0;
-  dealerData['over21'] = false;
-  dealerData['totalScore'] = 0;
-
-  let playerTotal = document.querySelector("#player-total");
-  let dealerTotal = document.querySelector("#dealer-total");
-
-  playerTotal.innerHTML = '';
-  dealerTotal.innerHTML = '';
-
-  let playButton = document.querySelector("#play-button");
-  let resetButton = document.querySelector("#reset-button");
-  playButton.disabled = false;
-  resetButton.disabled = true;
 }
 
 function fisherYatesShuffle(array) {
