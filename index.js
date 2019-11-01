@@ -9,14 +9,17 @@ let playerData = {
   numberOfCards: 0,
   over21: false,
   totalScore: 0,
+  turnOver: false,
   wins: 0
 };
 
 let dealerData = {
   cardValues: [],
+  faceCard: 0,
   numberOfCards: 0,
   over21: false,
   totalScore: 0,
+  turnOver: false,
   wins: 0
 };
 
@@ -53,6 +56,9 @@ function game() {
   playerTurn(dealerData, dealerCards, dealerTotal, shuffledDeck);
   playerTurn(dealerData, dealerCards, dealerTotal, shuffledDeck);
 
+  // set dealer face card for table decision tree
+  dealerData.faceCard = dealerData.cardValues[0];
+
   // Initial check (Blackjack or tie)
   getMaximumValue(playerData, playerTotal);
   getMaximumValue(dealerData, dealerTotal);
@@ -70,6 +76,10 @@ function game() {
   console.log(dealerData.cardValues, playerData.cardValues);
 
   // Table based decision making section
+  while (playerData.turnOver !== true) {
+    playerTurn2(shuffledDeck);
+  }
+
 
 }
 
@@ -133,3 +143,62 @@ function fisherYatesShuffle(array) {
   return array;
 }
 
+
+// hard table
+function playerTurn2(shuffledDeck) {
+  // base case
+  if (playerData.numberOfCards === 5) {
+    return;
+  }
+
+  if (playerData.totalScore >= 5 && playerData.totalScore <= 11)
+}
+
+// soft table
+function softTable(shuffledDeck) {
+  // base case
+  if (playerData.numberOfCards === 5) {
+    return;
+  }
+
+  if (playerData.totalScore <= 15) {
+    hit(shuffledDeck);
+  } else if (playerData.totalScore === 16 && dealerData.faceCard >= 2 && dealerData.faceCard <= 3) {
+    hit(shuffledDeck);
+  } else if (playerData.totalScore === 16 && dealerData.faceCard >= 4 && dealerData.faceCard <= 6) {
+    stand(playerData);
+  } else if (playerData.totalScore === 16 && (dealerData.faceCard >= 7 || dealerData.faceCard === 1)) {
+    hit(shuffledDeck);
+  } else if (playerData.totalScore === 17 && dealerData.faceCard >= 2 && dealerData.faceCard <= 8) {
+    stand(playerData);
+  } else if (playerData.totalScore === 17 && (dealerData.faceCard >= 9 || dealerData.faceCard === 1)) {
+    hit(shuffledDeck);
+  } else if (playerData.totalScore >= 18) {
+    stand(playerData);
+  } else {
+    console.log("unchecked error");
+    return;
+  }
+}
+
+
+function hit(shuffledDeck) {
+  let card = getCard(shuffledDeck);
+  let nextCardPosition = getCardPlacement(playerData);
+
+  displayCard(card, nextCardPosition, playerCards);
+
+  playerData.cardValues.push(card);
+  playerData.numberOfCards++;
+  playerData.totalScore += card;
+
+  playerTotal.textContent = playerData.totalScore;
+
+  if (playerData.totalScore >= 21) {
+    playerData.turnOver = true;
+  }
+}
+
+function stand(player) {
+  player.turnOver = true;
+}
