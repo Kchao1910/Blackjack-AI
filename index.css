@@ -109,3 +109,35 @@ sup {
   display: flex;
   justify-content: space-around;
 }
+
+@media screen and (max-width: 350px) {
+  body, button {
+    font-size: 12px;
+  }
+
+  .grid1, .grid2 {
+    display: grid;
+    grid-template-rows: minmax(150px, 1fr);
+    grid-gap: 10px;
+    margin: 1rem;
+  }
+
+  .grid1 {
+    grid-template-columns: repeat(2, 80px);
+  }
+
+  .grid2 {
+    grid-template-columns: repeat(3, 80px);
+    position: relative;
+    top: -100px;
+  }
+
+  #flex {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card-parent-container {
+    flex-direction: column;
+  }
+}
