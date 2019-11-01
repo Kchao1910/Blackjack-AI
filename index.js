@@ -245,20 +245,20 @@ function softTable(shuffledDeck) {
   let pScore = playerData.totalScore;
   let dFaceCard = dealerData.faceCard;
   let pNumCards = playerData.numberOfCards;
+
   if ((pScore >= 12 && pScore <= 17) ||
       (pScore === 18 && (dFaceCard >= 3 and dFaceCard <= 6)))
   {
     hit(shuffledDeck);
   }
-  // Charlies
-  // 2-away
+  // 2-away Charlie
   else if ((pScore === 18 && pNumCards === 3)) {
     hit(shuffledDeck);
   }
   else if (pScore === 19 && pNumCards === 3 && dFaceCard === 10) {
     hit(shuffledDeck);
   }
-  // 1-away
+  // 1-away Charlie
   else if ((pScore >= 19 && pScore <= 21) && pNumCards === 4) {
     hit(shuffledDeck);
   }
