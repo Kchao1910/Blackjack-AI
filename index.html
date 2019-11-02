@@ -13,120 +13,116 @@
 </head>
 <body>
 
+  <!-- Header starts here -->
   <header>
     <h1>Blackjack<sub>ai</sub>
     </h1>
     <i class="material-icons">brightness_5</i>
   </header>
+  <!-- Header ends here -->
+
+  <!-- Console text starts here -->
+  <section class="text-output-container">
+    <textarea class="text-output" id="text-output" style="visibility: visible;">
+      Turn History
+    </textarea>
+  </section>
+  <!-- Console text ends here -->
 
   <main>
 
-    <!-- Game Menu -->
-    <nav id="game-menu">
-      <h2>scoreboard</h2>
-      <section id="scoreboard">
-        <section>
-          <h3>player<sup id="player-total">0</sup></h3>
-          <span id="player-score">0</span>
-        </section>
-        <section>
-          <h3>computer<sup id="dealer-total">0</sup></h3>
-          <span id="dealer-score">0</span>
-        </section>
+    <!-- Player's container starts here -->
+    <section id="player-container">
+
+      <!-- Player's Scoreboard -->
+      <section class="scoreboard">
+        <h3>player<sup id="player-total">0</sup></h3>
+        <span id="player-score">0</span>
       </section>
-      <section class="play">
-        <button id="play-button">Play</button>
-      </section>
-      <section class="play">
-        <button id="reset-button" disabled="true" >Reset</button>
-      </section>
-      <section class="play">
-        <button id="show-console-button" >Console</button>
-      </section>
-    </nav>
+      <!-- Player's scoreboard ends here -->
 
-    <!-- Dealer Cards -->
-    <section id="flex">
-
-    <!-- Player Cards -->
-      <section class="card-parent-container">
-
-        <section class="grid1">
-          <section class="card-container player-card">
-            <section class="left-card-number"></section>
-            <i class="material-icons"></i>
-            <section class="right-card-number"></section>
-          </section>
-          <section class="card-container player-card">
-            <section class="left-card-number"></section>
-            <i class="material-icons"></i>
-            <section class="right-card-number"></section>
-          </section>
+      <!-- Player's cards start here -->
+      <section class="cards-holder">
+        <section class="card-container player-card">
+          <section class="left-card-number"></section>
+          <i class="fab dragon"></i>
+          <section class="right-card-number"></section>
         </section>
-
-        <section class="grid2">
-          <section class="card-container player-card">
-            <section class="left-card-number"></section>
-            <i class="material-icons"></i>
-            <section class="right-card-number"></section>
-          </section>
-          <section class="card-container player-card">
-            <section class="left-card-number"></section>
-            <i class="material-icons"></i>
-            <section class="right-card-number"></section>
-          </section>
-          <section class="card-container player-card">
-            <section class="left-card-number"></section>
-            <i class="material-icons"></i>
-            <section class="right-card-number"></section>
-          </section>
+        <section class="card-container player-card move-left-1">
+          <section class="left-card-number"></section>
+          <i class="fab dragon"></i>
+          <section class="right-card-number"></section>
         </section>
-
-      </section>
-
-      <section class="card-parent-container">
-
-        <section class="grid1">
-          <section class="card-container dealer-card">
-            <section class="left-card-number"></section>
-            <i class="material-icons"></i>
-            <section class="right-card-number"></section>
-          </section>
-          <section class="card-container dealer-card">
-            <section class="left-card-number"></section>
-            <i class="material-icons"></i>
-            <section class="right-card-number"></section>
-          </section>
+        <section class="card-container player-card move-left-2">
+          <section class="left-card-number"></section>
+          <i class="fab dragon"></i>
+          <section class="right-card-number"></section>
         </section>
-
-        <section class="grid2">
-          <section class="card-container dealer-card">
-            <section class="left-card-number"></section>
-            <i class="material-icons"></i>
-            <section class="right-card-number"></section>
-          </section>
-          <section class="card-container dealer-card">
-            <section class="left-card-number"></section>
-            <i class="material-icons"></i>
-            <section class="right-card-number"></section>
-          </section>
-          <section class="card-container dealer-card">
-            <section class="left-card-number"></section>
-            <i class="material-icons"></i>
-            <section class="right-card-number"></section>
-          </section>
+        <section class="card-container player-card move-left-3">
+          <section class="left-card-number"></section>
+          <i class="fab dragon"></i>
+          <section class="right-card-number"></section>
         </section>
-
+        <section class="card-container player-card move-left-4">
+          <section class="left-card-number"></section>
+          <i class="fab dragon"></i>
+          <section class="right-card-number"></section>
+        </section>
       </section>
     </section>
+    <!-- End of player's container -->
 
-    <section class="text-output-container">
-        <textarea class="text-output" id="text-output" style="visibility: hidden;">
-          Turn History
-        </textarea>
+    <!-- Button controls start here -->
+    <section id="button-controller">
+      <button id="play-button" class="light-theme">Play</button>
+      <button id="reset-button" class="light-theme" disabled="true" >Reset</button>
+      <button id="show-console-button" class="light-theme">Console</button>
     </section>
+    <!-- Button controls end here -->
+
+    <!-- Dealer container starts here -->
+    <section id="dealer-container">
+
+      <!-- Dealer's score goes here -->
+      <section class="scoreboard">
+        <h3>Dealer<sup id="dealer-total">0</sup></h3>
+        <span id="dealer-score">0</span>
+      </section>
+      <!-- Dealer's score ends here -->
+
+      <!-- Dealer's cards start here -->
+      <section class="cards-holder">
+        <section class="card-container dealer-card">
+          <section class="left-card-number"></section>
+          <i class="fab dragon"></i>
+          <section class="right-card-number"></section>
+        </section>
+        <section class="card-container dealer-card move-left-1">
+          <section class="left-card-number"></section>
+          <i class="fab dragon"></i>
+          <section class="right-card-number"></section>
+        </section>
+        <section class="card-container dealer-card move-left-2">
+          <section class="left-card-number"></section>
+          <i class="fab dragon"></i>
+          <section class="right-card-number"></section>
+        </section>
+        <section class="card-container dealer-card move-left-3">
+          <section class="left-card-number"></section>
+          <i class="fab dragon"></i>
+          <section class="right-card-number"></section>
+        </section>
+        <section class="card-container dealer-card move-left-4">
+          <section class="left-card-number"></section>
+          <i class="fab dragon"></i>
+          <section class="right-card-number"></section>
+        </section>
+      </section>
+    </section>
+    <!-- Dealer container ends here -->
   </main>
 
   <script src="index.js"></script>
+  <script src="https://kit.fontawesome.com/e3488cdef9.js"></script>
 </body>
 </html>

@@ -2,6 +2,36 @@ let theme = {
   darkMode: false
 };
 
+// Theme is an object that holds the properties of a certain theme (dark mode and light mode)
+function Theme(primaryBackgroundColor, secondaryBackgroundColor, color, brightness, themeType, cardTheme) {
+  this.primaryBackgroundColor = primaryBackgroundColor;
+  this.secondaryBackgroundColor = secondaryBackgroundColor;
+  this.color = color;
+  this.brightness = brightness;
+  this.themeType = themeType;
+  this.cardTheme = cardTheme;
+}
+
+let darkTheme = new Theme("rgba(0, 0, 0, 0.9)", "rgb(39, 39, 39,)", "white", "brightness_5", "dark-theme", "d-card-theme");
+let lightTheme = new Theme("white", "white", "black", "brightness_5", "light-theme", "l-card-theme");
+
+function setTheme(theme) {
+  document.body.style = `background-color: ${theme.primaryBackgroundColor}; color: ${theme.color}`;
+  document.getElementsByTagName("header")[0].style = `background-color: ${theme.secondaryBackgroundColor}`;
+  document.querySelector(".material-icons").textContent = theme.brightness;
+  document.querySelector("#play-button").className = theme.themeType;
+  document.querySelector("#reset-button").className = theme.themeType;
+  document.querySelector("#show-console-button").className= theme.themeType;
+  changeCardStyles(playerCards, theme);
+  changeCardStyles(dealerCards, theme);
+}
+
+function changeCardStyles(nodeList, theme){
+  for (let element of nodeList) {
+    element.id = theme.cardTheme;
+  }
+}
+
 (function() {
   document.querySelector(".material-icons").addEventListener("click", function() {
     changeTheme();
@@ -11,26 +41,10 @@ let theme = {
 function changeTheme() {
   if (theme.darkMode === false) {
     theme.darkMode = true;
-    document.body.style.backgroundColor = "black";
-    document.body.style.color = "white";
-    document.querySelector(".material-icons").textContent = "brightness_4";
-    document.querySelector("#show-console-button").style.backgroundColor = "white";
-    document.querySelector("#play-button").style.backgroundColor = "white";
-    document.querySelector("#reset-button").style.backgroundColor = "white";
-    document.querySelector("#show-console-button").style.color = "black";
-    document.querySelector("#play-button").style.color = "black";
-    document.querySelector("#reset-button").style.color = "black";
+    setTheme(darkTheme);
   } else {
     theme.darkMode = false;
-    document.body.style.backgroundColor = "white";
-    document.body.style.color = "black";
-    document.querySelector(".material-icons").textContent = "brightness_5";
-    document.querySelector("#show-console-button").style.backgroundColor = "black";
-    document.querySelector("#play-button").style.backgroundColor = "black";
-    document.querySelector("#reset-button").style.backgroundColor = "black";
-    document.querySelector("#show-console-button").style.color = "white";
-    document.querySelector("#play-button").style.color = "white";
-    document.querySelector("#reset-button").style.color = "white";
+    setTheme(lightTheme);
   }
 }
 
@@ -105,8 +119,10 @@ let cards = [
   10, 10, 10, 10
 ];
 
+let cardClone = [...cards];
+
 function game() {
-  let shuffledDeck = fisherYatesShuffle(cards);
+  let shuffledDeck = fisherYatesShuffle(cardClone);
   // Initial turn for both players
   playerTurn(playerData, playerCards, playerTotal, shuffledDeck);
   playerTurn(playerData, playerCards, playerTotal, shuffledDeck);
@@ -158,13 +174,10 @@ function game() {
     return;
   }
 
-  console.log(dealerData.cardValues, playerData.cardValues);
-  console.log(playerCards);
   // Table based decision making section
 
   softOrHard();
 
-  console.log("Hard table: ", playerData.hardTable);
   textOutput.innerHTML = textOutput.innerHTML + '===== Turn ' + numGamesCounter +  ' =====' + '\n';
 
   while (playerData.turnOver === false) {
@@ -182,7 +195,6 @@ function game() {
   }
 
   while (dealerData.turnOver === false)  {
-    console.log(dealerData.turnOver)
     checkSoftHand();
     dealerAI(shuffledDeck);
     dealerTotal.textContent = dealerData.totalScore;
@@ -254,7 +266,7 @@ function displayCard(card, nextCardPosition, nodeList) {
   currentCard = nodeList[nextCardPosition];
   cardAssets = currentCard.childNodes;
   cardAssets[1].textContent = `${card}`;
-  cardAssets[3].textContent = "security";
+  cardAssets[3].setAttribute("class", "fab fa-d-and-d dragon ");
   cardAssets[5].textContent = `${card}`;
 }
 
@@ -270,48 +282,46 @@ function getMaximumValue(player, playerTotal) {
 }
 
 function resetGame() {
-  let playerCardContainer = document.getElementsByClassName("player-card");
-  let dealerCardContainer = document.getElementsByClassName("dealer-card");
-
-  for (let i = 0; i < playerCardContainer.length; ++i) {
-    playerCardContainer[i].childNodes[1].textContent = '';
-    playerCardContainer[i].childNodes[3].textContent = '';
-    playerCardContainer[i].childNodes[5].textContent = '';
-  }
-  for (let i = 0; i < dealerCardContainer.length; ++i) {
-    dealerCardContainer[i].childNodes[1].textContent = '';
-    dealerCardContainer[i].childNodes[3].textContent = '';
-    dealerCardContainer[i].childNodes[5].textContent = '';
-  }
+  resetCards(playerCards);
+  resetCards(dealerCards);
 
   numGamesCounter += 1;
 
-  playerData['aceSwitch'] = false;
-  playerData['cardValues'] = [];
-  playerData['numberOfCards'] = 0;
-  playerData['over21'] = false;
-  playerData['hardTable'] = false;
-  playerData['totalScore'] = 0;
-  playerData['turnOver'] = false;
+  playerData.aceSwitch = false;
+  playerData.cardValues = [];
+  playerData.numberOfCards = 0,
+  playerData.over21 = false;
+  playerData.hardTable = false;
+  playerData.totalScore = 0;
+  playerData.turnOver = false;
 
-  dealerData['aceSwitch'] = false;
-  dealerData['cardValues'] = [];
-  dealerData['numberOfCards'] = 0;
-  dealerData['over21'] = false;
-  dealerData['hardTable'] = false;
-  dealerData['totalScore'] = 0;
-  dealerData['turnOver'] = false;
+  dealerData.aceSwitch = false;
+  dealerData.cardValues = [];
+  dealerData.faceCard = 0,
+  dealerData.softHand = false;
+  dealerData.numberOfCards = 0;
+  dealerData.over21 = false;
+  dealerData.totalScore = 0;
+  dealerData.turnOver = false;
 
-  let playerTotal = document.querySelector("#player-total");
-  let dealerTotal = document.querySelector("#dealer-total");
-
-  playerTotal.innerHTML = '';
-  dealerTotal.innerHTML = '';
+  playerTotal.textContent = '0';
+  dealerTotal.textContent = '0';
 
   let playButton = document.querySelector("#play-button");
   let resetButton = document.querySelector("#reset-button");
   playButton.disabled = false;
   resetButton.disabled = true;
+
+  cardClone = [...cards];
+}
+
+function resetCards(nodeList) {
+  for (let element of nodeList) {
+    element = element.childNodes;
+    element[1].textContent = '';
+    element[3].setAttribute("class", "fab dragon");
+    element[5].textContent = '';
+  }
 }
 
 function fisherYatesShuffle(array) {
@@ -350,10 +360,10 @@ function hardTable(shuffledDeck) {
   if (playerData.totalScore >= 5 && playerData.totalScore <= 11) {
     textOutput.innerHTML = textOutput.innerHTML + " Player Score: " + playerData.totalScore + "\nHit...\n";
     hit(playerData, playerTotal, playerCards, shuffledDeck);
-  } else if (playerData.totalScore === 12 && dealerData.faceCard >=1 && dealerData.faceCard <= 3 && dealerData.faceCard >= 7) {
+  } else if (playerData.totalScore === 12 && dealerData.faceCard >= 1 && dealerData.faceCard <= 3 && dealerData.faceCard >= 7) {
     textOutput.innerHTML = textOutput.innerHTML + " Player Score: " + playerData.totalScore + "\nHit...\n";
     hit(playerData, playerTotal, playerCards, shuffledDeck);
-  } else if (playerData.totalScore === 12 && dealerData.faceCard >=4 && dealerData.faceCard <= 6) {
+  } else if (playerData.totalScore === 12 && dealerData.faceCard >= 4 && dealerData.faceCard <= 6) {
     if (playerData.numberOfCards >= 3) {
       textOutput.innerHTML = textOutput.innerHTML + " Player Score: " + playerData.totalScore + "\nHit...\n";
       hit(playerData, playerTotal, playerCards, shuffledDeck);
@@ -361,7 +371,7 @@ function hardTable(shuffledDeck) {
       textOutput.innerHTML = textOutput.innerHTML + " Player Score: " + playerData.totalScore + "\nStand.\n";
       stand(playerData);
     }
-  } else if (playerData.totalScore === 13 && dealerData.faceCard >=2 && dealerData.faceCard <= 6) {
+  } else if (playerData.totalScore === 13 && dealerData.faceCard >= 2 && dealerData.faceCard <= 6) {
     if (playerData.numberOfCards >= 3) {
       textOutput.innerHTML = textOutput.innerHTML + " Player Score: " + playerData.totalScore + "\nHit...\n";
       hit(playerData, playerTotal, playerCards, shuffledDeck);
@@ -369,10 +379,10 @@ function hardTable(shuffledDeck) {
       textOutput.innerHTML = textOutput.innerHTML + " Player Score: " + playerData.totalScore + "\nStand.\n";
       stand(playerData);
     }
-  } else if (playerData.totalScore === 13 && (dealerData.faceCard >=7 || dealerData.faceCard === 1)) {
+  } else if (playerData.totalScore === 13 && (dealerData.faceCard >= 7 || dealerData.faceCard === 1)) {
     textOutput.innerHTML = textOutput.innerHTML + " Player Score: " + playerData.totalScore + "\nHit...\n";
     hit(playerData, playerTotal, playerCards, shuffledDeck);
-  } else if (playerData.totalScore === 14 && dealerData.faceCard >=2 && dealerData.faceCard <= 6) {
+  } else if (playerData.totalScore === 14 && dealerData.faceCard >= 2 && dealerData.faceCard <= 6) {
     if (playerData.numberOfCards === 4) {
       textOutput.innerHTML = textOutput.innerHTML + " Player Score: " + playerData.totalScore + "\nHit...\n";
       hit(playerData, playerTotal, playerCards, shuffledDeck);
@@ -380,10 +390,10 @@ function hardTable(shuffledDeck) {
       textOutput.innerHTML = textOutput.innerHTML + " Player Score: " + playerData.totalScore + "\nStand.\n";
       stand(playerData);
     }
-  } else if (playerData.totalScore === 14 && (dealerData.faceCard >=7 && dealerData.faceCard === 1)) {
+  } else if (playerData.totalScore === 14 && (dealerData.faceCard >= 7 && dealerData.faceCard === 1)) {
     textOutput.innerHTML = textOutput.innerHTML + " Player Score: " + playerData.totalScore + "\nHit...\n";
     hit(playerData, playerTotal, playerCards, shuffledDeck);
-  } else if (playerData.totalScore === 15 && dealerData.faceCard >=2 && dealerData.faceCard <= 6) {
+  } else if (playerData.totalScore === 15 && dealerData.faceCard >= 2 && dealerData.faceCard <= 6) {
     if (playerData.numberOfCards === 4) {
       textOutput.innerHTML = textOutput.innerHTML + " Player Score: " + playerData.totalScore + "\nHit...\n";
       hit(playerData, playerTotal, playerCards, shuffledDeck);
@@ -498,16 +508,13 @@ function changeAce() {
 
 function dealerAI(shuffledDeck) {
   if (dealerData.totalScore >= 17 && dealerData.aceSwitch === false) {
-    console.log('1')
     stand(dealerData);
   } else if (dealerData.totalScore === 17 && dealerData.aceSwitch === true) {
-    console.log('2')
     hit(dealerData, dealerTotal, dealerCards, shuffledDeck);
   } else if (dealerData.totalScore <= 16) {
-    console.log('3')
     hit(dealerData, dealerTotal, dealerCards, shuffledDeck);
   } else {
-    console.log("What happened?");
+    alert("Uh Oh! Something broke!");
   }
 }
 
