@@ -186,6 +186,14 @@ function game() {
     playerTotal.textContent = playerData.totalScore;
   }
 
+  if (playerData.numberOfCards === 5 && playerData.totalScore <= 21) {
+    playerData.wins++;
+    playerScore.textContent = playerData.wins;
+    textOutput.innerHTML = textOutput.innerHTML + 'Player Wins!\n';
+    stopGame();
+    return;
+  }
+
   if (playerData.totalScore > 21) {
     dealerData.wins++;
     dealerScore.textContent = dealerData.wins;
@@ -198,6 +206,14 @@ function game() {
     checkSoftHand();
     dealerAI(shuffledDeck);
     dealerTotal.textContent = dealerData.totalScore;
+  }
+
+  if (dealerData.numberOfCards === 5 && dealerData.totalScore >= playerData.totalScore) {
+    dealerData.wins++;
+    dealerScore.textContent = dealerData.wins;
+    textOutput.innerHTML = textOutput.innerHTML + 'Dealer Wins!\n';
+    stopGame();
+    return;
   }
 
   if (dealerData.totalScore > 21) {
