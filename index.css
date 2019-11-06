@@ -153,16 +153,13 @@ sup {
 
 /* Media Queries */
 @media screen and (max-width: 500px) {
-  * {
-    overflow: hidden;
-  }
-
   header, .scoreboard, #button-controller {
     font-size: 0.8rem;
   }
 
   main {
     flex-direction: column;
+    overflow: hidden;
   }
 
   #button-controller {
