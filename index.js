@@ -278,6 +278,7 @@ function getCardPlacement(player) {
   return player.numberOfCards;
 }
 
+// this function displays the card number
 function displayCard(card, nextCardPosition, nodeList) {
   currentCard = nodeList[nextCardPosition];
   cardAssets = currentCard.childNodes;
@@ -331,6 +332,7 @@ function resetGame() {
   cardClone = [...cards];
 }
 
+// this function creates blank cards
 function resetCards(nodeList) {
   for (let element of nodeList) {
     element = element.childNodes;
@@ -340,6 +342,7 @@ function resetCards(nodeList) {
   }
 }
 
+// Fisher-Yates algorithm
 function fisherYatesShuffle(array) {
   var currentIndex = array.length, temporaryValue, randomIndex;
 
@@ -481,6 +484,7 @@ function softTable(shuffledDeck) {
   }
 }
 
+// this function adds the first card on top of the deck into the player's hand
 function hit(player, playerTotal, playerCards, shuffledDeck) {
   let card = getCard(shuffledDeck);
   let nextCardPosition = getCardPlacement(player);
@@ -498,10 +502,12 @@ function hit(player, playerTotal, playerCards, shuffledDeck) {
   }
 }
 
+// this function ends the player's turn
 function stand(player) {
   player.turnOver = true;
 }
 
+// this function determines which table to use depending on if the player's hand contains an ace
 function softOrHard() {
   if ((playerData.cardValues.filter(value => value === 1)).length >= 1) {
     playerData.hardTable = false;
@@ -510,6 +516,7 @@ function softOrHard() {
   }
 }
 
+// this function adds or subtracts 10 from the total hand 
 function changeAce() {
   if (playerData.aceSwitch === false && playerData.totalScore <= 11) {
     playerData.aceSwitch = true;
@@ -522,6 +529,7 @@ function changeAce() {
   }
 }
 
+// this function acts as the main interface for the dealer AI
 function dealerAI(shuffledDeck) {
   if (dealerData.totalScore >= 17 && dealerData.aceSwitch === false) {
     stand(dealerData);
